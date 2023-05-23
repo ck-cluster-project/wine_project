@@ -69,7 +69,10 @@ def clean_wine():
     
     # remove outliers -- removed outliers outside of 4 standard deviation
     df = remove_outliers(df, 'wine_type')
-    
+
+    # categorize quality into high, med, low 
+    df['quality_type'] = df['quality'].replace({3: 'low', 4: 'low', 5: 'medium', 6: 'medium', 7: 'high', 8: 'high', 9: 'high'})
+
     # fix names for columns
     new_col_name = []
     
@@ -150,24 +153,6 @@ DataFrame value counts:
         sns.histplot(df[col], ax=ax)
         ax.set_title(f'Histogram of {col}')
         plt.show()
-
-def outlier(df, feature, m=1.5):
-    '''
-    outlier will take in a dataframe's feature:
-    - calculate it's 1st & 3rd quartiles,
-    - use their difference to calculate the IQR
-    - then apply to calculate upper and lower bounds
-    - using the `m` multiplier
-    '''
-    q1 = df[feature].quantile(.25)
-    q3 = df[feature].quantile(.75)
-    
-    iqr = q3 - q1
-    
-    upper_bound = q3 + (m * iqr)
-    lower_bound = q1 - (m * iqr)
-    
-    return upper_bound, lower_bound
 
 def rename_col(df, list_of_columns=[]): 
     '''
