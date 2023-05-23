@@ -20,6 +20,7 @@ Some of these factors are: fixed acidity, volatile acidity, citric acid, residua
 4.
 
 # Data dictionary:
+<img width="755" alt="Data Dictionary" src="https://github.com/Keila-Camarillo/wine_project/blob/main/Data%20Dictionary.png">
 
 
 # Instructions on how someone else can reproduce your project and findings:
