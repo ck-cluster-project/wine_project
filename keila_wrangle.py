@@ -15,7 +15,15 @@ from sklearn.model_selection import train_test_split
 def read_wine():
     red = pd.read_csv('winequality-red.csv')
     white = pd.read_csv('winequality-white.csv')
-    return red, white
+    # create columns to seperate wine types --  encode
+    red['red_wine'] = 1
+    white['red_wine'] = 0
+
+    red['wine_type'] = 'red'
+    white['wine_type'] = 'white'
+    # combine red & white wine dataset
+    df = pd.concat([red, white])
+    return df
 
 def remove_outliers(df, exclude_column=[], sd=4):
     """
@@ -57,16 +65,7 @@ def split_data(df, stratify_name=None):
 
 def clean_wine():
     # get datasets 
-    red, white = read_wine()
-    
-    # create columns to seperate wine types --  encode
-    red['red_wine'] = 1
-    white['red_wine'] = 0
-
-    red['wine_type'] = 'red'
-    white['wine_type'] = 'white'
-    # combine red & white wine dataset
-    df = pd.concat([red, white])
+    df = read_wine()
     
     # remove outliers -- removed outliers outside of 4 standard deviation
     df = remove_outliers(df, 'wine_type')
