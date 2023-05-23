@@ -31,7 +31,7 @@ def read_wine():
     # categorize quality into high low 
     return df
 
-def remove_outliers(df, exclude_columns=[], sd=4):
+def remove_outliers(df, exclude_columns=[], sd=3):
     """
     Remove outliers from a pandas DataFrame using the Z-score method.
     
@@ -52,8 +52,8 @@ def remove_outliers(df, exclude_columns=[], sd=4):
         num_outliers = len(z_scores[z_scores > sd])
         num_outliers_total += num_outliers
         df = df[(z_scores <= sd) | pd.isnull(df[column])]
-        print(f"{num_outliers} outliers removed from {column}.")
-    print(f"\nTotal of {num_outliers_total} outliers removed.")
+    #     print(f"{num_outliers} outliers removed from {column}.")
+    # print(f"\nTotal of {num_outliers_total} outliers removed.")
     return df
 
 def split_data(df, stratify_name=None):
