@@ -7,9 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from scipy import stats
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import MinMaxScaler
+from scipy import stats
 from sklearn.model_selection import train_test_split
 
 def read_wine():
@@ -83,7 +82,7 @@ def clean_wine():
     train, validate, test = split_data(df, "quality")
     
     return train, validate, test
-    return df
+
 
 def get_object_cols(df):
     '''
@@ -94,6 +93,7 @@ def get_object_cols(df):
     object_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
     
     return object_cols
+
 
 def get_numeric_cols(df):
     '''
@@ -170,65 +170,3 @@ def outlier(df, feature, m=1.5):
     
     return upper_bound, lower_bound
 
-def rename_col(df, list_of_columns=[]): 
-    '''
-    Take df with incorrect names and will return a renamed df using the 'list_of_columns' which will contain a list of appropriate names for the columns  
-    '''
-    df = df.rename(columns=dict(zip(df.columns, list_of_columns)))
-    return df
-
-def split_data_xy(train, validate, test, target):
-    '''
-    This function take in a dataframe performs a train, validate, test split
-    Returns train, validate, test, X_train, y_train, X_validate, y_validate, X_test, y_test
-    and prints out the shape of train, validate, test
-    '''
-    #Split into X and y
-    x_train = train.drop(columns=[target])
-    y_train = train[target]
-
-    x_validate = validate.drop(columns=[target])
-    y_validate = validate[target]
-
-    x_test = test.drop(columns=[target])
-    y_test = test[target]
-
-    # Have function print datasets shape
-    print(f'train -> {train.shape}')
-    print(f'validate -> {validate.shape}')
-    print(f'test -> {test.shape}')
-   
-    return train, validate, test, x_train, y_train, x_validate, y_validate, x_test, y_test
-
-def mm_scale(x_train, x_validate, x_test):
-    """
-    Apply MinMax scaling to the input data.
-
-    Args:
-        x_train (pd.DataFrame): Training data features.
-        x_validate (pd.DataFrame): Validation data features.
-        x_test (pd.DataFrame): Test data features.
-
-    Returns:
-        Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]: Scaled versions of the input data
-            (x_train_scaled, x_validate_scaled, x_test_scaled).
-    """
-    # remove string column wine_type
-    keep_col = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'ph', 'sulphates', 'alcohol', 'red_wine']
-    x_train, x_validate, x_test = x_train[keep_col], x_validate[keep_col], x_test[keep_col]
-    
-    
-    scaler = MinMaxScaler()
-    scaler.fit(x_train)
-
-
-    x_train_scaled = scaler.transform(x_train)
-    x_validate_scaled = scaler.transform(x_validate)
-    x_test_scaled = scaler.transform(x_test)
-
-    col_name = list(x_train.columns)
-
-    x_train_scaled, x_validate_scaled, x_test_scaled = pd.DataFrame(x_train_scaled), pd.DataFrame(x_validate_scaled), pd.DataFrame(x_test_scaled)
-    x_train_scaled, x_validate_scaled, x_test_scaled  = rename_col(x_train_scaled, col_name), rename_col(x_validate_scaled, col_name), rename_col(x_test_scaled, col_name)
-    
-    return x_train_scaled, x_validate_scaled, x_test_scaled
