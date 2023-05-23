@@ -15,29 +15,37 @@ from sklearn.model_selection import train_test_split
 def read_wine():
     red = pd.read_csv('winequality-red.csv')
     white = pd.read_csv('winequality-white.csv')
+
     # create columns to seperate wine types --  encode
     red['red_wine'] = 1
     white['red_wine'] = 0
 
     red['wine_type'] = 'red'
     white['wine_type'] = 'white'
+
     # combine red & white wine dataset
     df = pd.concat([red, white])
+
+    # categorize quality into high low 
+    df['quality_type'] = df['quality'].replace({3: 'low', 4: 'low', 5: 'low', 6: 'high', 7: 'high', 8: 'high', 9: 'high'})
+    # categorize quality into high low 
     return df
 
-def remove_outliers(df, exclude_column=[], sd=4):
+def remove_outliers(df, exclude_columns=[], sd=4):
     """
     Remove outliers from a pandas DataFrame using the Z-score method.
     
     Args:
     df (pandas.DataFrame): The DataFrame containing the data.
+    exclude_columns (list): List of column names to exclude from outlier removal.
+    sd (int): The number of standard deviations to use as the threshold for outlier removal.
     
     Returns:
     pandas.DataFrame: The DataFrame with outliers removed.
     """
     num_outliers_total = 0
     for column in df.columns:
-        if column == exclude_column:
+        if column in exclude_columns:
             continue
         series = df[column]
         z_scores = np.abs(stats.zscore(series))
@@ -68,10 +76,7 @@ def clean_wine():
     df = read_wine()
     
     # remove outliers -- removed outliers outside of 4 standard deviation
-    df = remove_outliers(df, 'wine_type')
-
-    # categorize quality into high, med, low 
-    df['quality_type'] = df['quality'].replace({3: 'low', 4: 'low', 5: 'medium', 6: 'medium', 7: 'high', 8: 'high', 9: 'high'})
+    df = remove_outliers(df, ['quality_type','wine_type'])
 
     # fix names for columns
     new_col_name = []
