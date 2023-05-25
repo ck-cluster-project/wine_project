@@ -112,7 +112,7 @@ def volatile_barplot(df):
     # creat average line
   
     
-    plt.title("Low Quality Wine has More volatile_acidity")
+    plt.title("Low Quality Wine has More Volatile Acidity")
     sns.barplot(x="quality_type", y="volatile_acidity", data=df)
     plt.xlabel("Quality")
     plt.ylabel("Amount of Volatile Acidity")
