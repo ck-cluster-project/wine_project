@@ -73,7 +73,11 @@ def clean_wine():
     df = read_wine()
     
     # remove outliers -- removed outliers outside of 4 standard deviation
+<<<<<<< HEAD
     df = remove_outliers(df, 'wine_type')
+=======
+    df = remove_outliers(df, ['wine_type'])
+>>>>>>> 65ce71bf49e990ca0637155bbb9751255f89ea61
 
     # fix names for columns
     new_col_name = []
