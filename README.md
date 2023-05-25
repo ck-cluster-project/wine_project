@@ -14,15 +14,37 @@ Some of these factors are: fixed acidity, volatile acidity, citric acid, residua
 5. Evaluation and Modeling:
 5. Delivery:
 # Initial hypotheses and/or questions you have of the data, ideas:
-1.
-2.
-3.
-4.
+1. Does Residual Sugar Affect Wine Quality?
+2.Does Chlorides Affect Wine Quality?
+3.Does Total Sulfur Dioxide Affect Wine Quality?
+4.Does Citric Acid Affect Red Wine Quality?
+
 
 # Data dictionary:
 <img width="755" alt="Data Dictionary" src="https://github.com/Keila-Camarillo/wine_project/blob/main/Data%20Dictionary.png">
 
+Data Set Citation: 
+P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis.
+Modeling wine preferences by data mining from physicochemical properties.
+In Decision Support Systems, Elsevier, 47(4):547-553. ISSN: 0167-9236.
+
 
 # Instructions on how someone else can reproduce your project and findings:
+1. For an user to succesfully reproduce this project, they must have red and white wine data set downloaded.
+2. the wrangle.py, explore.py and evaluate.py files must be downloaded in the same repository/folder as the final_report to run it successfully. 
+3. Once all files are download, user may run the final_report notebook.
 
-# Key findings, recommendations, and takeaways from your project:
+
+
+# Key findings, Recommendations, and Takeaways:
+1. The average amount of alcohol in high quality wine is more than the average amount of alcohol in low quality wine.
+2. The average amount of chlorides in low quality wine is greater than the average amount of chlorides in high quality wine.
+3. The average amount of total sulfur dioxide in low quality wine is greater than the average amount of total sulfur dioxide in high quality wine.
+4. The average amount of residual sugar in low quality wine is greater than the average amount of residual sugar in high quality wine.
+5.  We would recommend to use our current model to predict the quality of the wine, prioritzing the features selected above.
+
+Given more time:
+6.we would like to explore other features and incorporate other clusters into our model.
+7. Explore other hyperparameters and different models to improve accuracy.
+8. Explore binning the target variable differently or use it as a continous variable to look at regression models.
+9. Collect more data such as: location of winery,type barrels used, and year of when wine grapes where harvested.
