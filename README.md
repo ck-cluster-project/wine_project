@@ -1,7 +1,7 @@
 # Project Goals:
 We would be analyzing, exploring the different attributes affecting red and white wine quality. 
 We would be creating a model based on to predict the quality of the wine.
-This data would not be used on future properties or for real life prediction.
+This data would not be used on future and/or for real life prediction.
 
 # Project description:
 For this project we would exploring the different factors that affect wine quality.
