@@ -48,8 +48,6 @@ def alcohol_barplot(df):
     sns.barplot(x="quality_type", y="alcohol", data=df, hue='wine_type')
     plt.xlabel("Quality")
     plt.ylabel("Alcohol Content")
-    tick_label = ["Low", "High"]
-    ax.set_xticklabels(tick_label)
     property_value_average = df.alcohol.mean()
     plt.axhline(property_value_average, label="Alcohol Content Average", color='DarkSlateBlue')
     plt.legend(loc='lower right')
@@ -69,8 +67,6 @@ def sugar_barplot(df):
     sns.barplot(x="quality_type", y="residual_sugar", data=df, hue='wine_type')
     plt.xlabel("Quality")
     plt.ylabel("Residual Sugar Amount")
-    tick_label = ["Low", "High"]
-    ax.set_xticklabels(tick_label)
     property_value_average = df.residual_sugar.mean()
     plt.axhline(property_value_average, label="Residual Sugar Average", color='DarkSlateBlue')
     plt.legend(loc='upper right')
@@ -90,8 +86,6 @@ def chlorides_barplot(df):
     sns.barplot(x="quality_type", y="chlorides", data=df, hue='wine_type')
     plt.xlabel("Quality")
     plt.ylabel("Chlorides")
-    tick_label = ["Low", "High"]
-    ax.set_xticklabels(tick_label)
     property_value_average = df.chlorides.mean()
     plt.axhline(property_value_average, label="Chlorides Average", color='DarkSlateBlue')
     plt.legend(loc='lower right')
@@ -111,9 +105,42 @@ def tsd_barplot(df):
     sns.barplot(x="quality_type", y="total_sulfur_dioxide", data=df, hue='wine_type')
     plt.xlabel("Quality")
     plt.ylabel("Total Sulfur Dioxide")
-    tick_label = ["Low", "High"]
-    ax.set_xticklabels(tick_label)
     total_sulfur_dioxide = df.total_sulfur_dioxide.mean()
     plt.axhline(total_sulfur_dioxide, label="Total Sulfur Dioxide Average", color='DarkSlateBlue')
     plt.legend(loc='lower right')
+    plt.show()
+
+
+def citric_barplot(df):
+    '''
+    This function creates a custom bar chart for comparing red wine's quality against citric acid
+    '''
+    fig, ax =plt.subplots()
+    # creat average line
+  
+    
+    plt.title("Higher Quality Red Wine has More Citric Acid ")
+    sns.barplot(x="quality_type", y="citric_acid", data=df)
+    plt.xlabel("Quality")
+    plt.ylabel("Amount of Citric Acid")
+    red_wine_mean_citric_acid = df[df.red_wine == 1].citric_acid.mean()
+    plt.axhline(red_wine_mean_citric_acid, label="Citric Acid Average", color='DarkSlateBlue')
+    plt.legend()
+    plt.show()
+
+def volatile_barplot(df):
+    '''
+    This function creates a custom bar chart for comparing homes with pools and homes without pools
+    '''
+    fig, ax =plt.subplots()
+    # creat average line
+  
+    
+    plt.title("Low Quality Wine has More volatile_acidity")
+    sns.barplot(x="quality_type", y="volatile_acidity", data=df, hue='wine_type')
+    plt.xlabel("Quality")
+    plt.ylabel("Amount of Volatile Acidity")
+    property_value_average = df.volatile_acidity.mean()
+    plt.axhline(property_value_average, label="Volatile Acidity Average", color='DarkSlateBlue')
+    plt.legend(loc='upper right')
     plt.show()
