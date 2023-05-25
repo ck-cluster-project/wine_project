@@ -15,8 +15,11 @@ Some of these factors are: fixed acidity, volatile acidity, citric acid, residua
 5. Delivery:
 # Initial hypotheses and/or questions you have of the data, ideas:
 1. Does Residual Sugar Affect Wine Quality?
+
 2.Does Chlorides Affect Wine Quality?
+
 3.Does Total Sulfur Dioxide Affect Wine Quality?
+
 4.Does Citric Acid Affect Red Wine Quality?
 
 
