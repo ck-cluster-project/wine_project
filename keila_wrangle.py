@@ -26,9 +26,6 @@ def read_wine():
     # combine red & white wine dataset
     df = pd.concat([red, white])
 
-    # categorize quality into high low 
-    df['quality_type'] = df['quality'].replace({3: 'low', 4: 'low', 5: 'low', 6: 'high', 7: 'high', 8: 'high', 9: 'high'})
-    # categorize quality into high low 
     return df
 
 def remove_outliers(df, exclude_columns=[], sd=3):
@@ -76,7 +73,7 @@ def clean_wine():
     df = read_wine()
     
     # remove outliers -- removed outliers outside of 4 standard deviation
-    df = remove_outliers(df, ['quality_type','wine_type'])
+    df = remove_outliers(df, ['wine_type'])
 
     # fix names for columns
     new_col_name = []
