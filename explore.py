@@ -106,7 +106,7 @@ def tsd_barplot(df):
 
 def volatile_barplot(df):
     '''
-    This function creates a custom bar chart for comparing homes with pools and homes without pools
+    This function creates a custom bar chart for comparing low/high quality wine's volatile_acidity content
     '''
     fig, ax =plt.subplots()
     # creat average line
@@ -125,7 +125,7 @@ def volatile_barplot(df):
 
 def ph_barplot(df):
     '''
-    This function creates a custom bar chart for comparing homes with pools and homes without pools
+    This function creates a custom bar chart for comparing low/high quality wine's ph content
     '''
     fig, ax =plt.subplots()
     # creat average line

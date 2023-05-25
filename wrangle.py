@@ -13,6 +13,12 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 def read_wine():
+    """
+    Read the red and white wine datasets, combine them, and preprocess the data.
+    
+    Returns:
+    df (DataFrame): Combined and preprocessed wine dataset.
+    """
     red = pd.read_csv('winequality-red.csv')
     white = pd.read_csv('winequality-white.csv')
 
@@ -84,6 +90,16 @@ def remove_columns(df, cols_to_remove):
 
 
 def clean_wine():
+    """
+    Reads the wine dataset, removes outliers, fixes column names, drops unnecessary columns,
+    and splits the data into training, validation, and test sets based on the 'quality' variable.
+
+    Returns:
+    - train (DataFrame): Training dataset.
+    - validate (DataFrame): Validation dataset.
+    - test (DataFrame): Test dataset.
+    - df (DataFrame): Cleaned and processed original dataset.
+    """
     # get datasets 
     df = read_wine()
     
