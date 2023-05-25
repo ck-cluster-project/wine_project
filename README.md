@@ -34,8 +34,8 @@ In Decision Support Systems, Elsevier, 47(4):547-553. ISSN: 0167-9236.
 
 # Instructions on how someone else can reproduce your project and findings:
 1. For an user to succesfully reproduce this project, they must have red and white wine data set downloaded.
-2. the wrangle.py, explore.py and evaluate.py files must be downloaded in the same repository/folder as the final_report to run it successfully. 
-3. Once all files are download, user may run the final_report notebook.
+2. The wrangle.py, explore.py and evaluate.py files must be downloaded in the same repository/folder as the final_report to run it successfully. 
+3.  Once all files are download, user may run the final_report notebook.
 
 
 
