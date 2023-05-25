@@ -61,15 +61,17 @@ def elbow_method(data, max_k):
     plt.show()
 
 
-def fit_KNN_random_features(X_scaled, y, n_random_features=0):
+def fit_KNN_random_features(X_scaled, y, x_validate_scaled, y_validate, n_random_features=0):
     """
     Fits a K-Nearest Neighbors model to the input pre-scaled data `X_scaled` and `y`,
     with an additional `n_random_features` randomly selected features from `X_scaled`.
-    Returns the best model that achieves a score of 70% or higher on the `y` variable,
+    Returns the best model that achieves a score of 44% or higher on the `y` variable,
     along with the results of the top five best models.
     """
     results = []
     best_models = []
+    train_scores = []
+    validate_scores = []
     for n_neighbors in range(1, 21):
         selected_cols = np.random.choice(X_scaled.columns, size=n_random_features, replace=False)
         X_with_random = X_scaled.copy()
@@ -77,49 +79,57 @@ def fit_KNN_random_features(X_scaled, y, n_random_features=0):
             X_with_random[col] = np.random.permutation(X_with_random[col].values)
         model = KNeighborsClassifier(n_neighbors=n_neighbors)
         model.fit(X_with_random, y)
-        score = model.score(X_with_random, y)
-        if 0.68 < score < 0.80:
-            results.append((model, score))
+        train_score = model.score(X_with_random, y)
+        validate_score = model.score(x_validate_scaled, y_validate)
+        if 0.44 < train_score < 0.80 and 0.44 < validate_score < 0.80:
+            results.append((model, train_score, validate_score))
     
     results.sort(key=lambda x: x[1], reverse=True)
     best_models = [result[0] for result in results[:5]]
-    best_scores = [result[1] for result in results[:5]]
-    top_models_df = pd.DataFrame({'Model': best_models, 'Score': best_scores})
+    best_train_scores = [result[1] for result in results[:5]]
+    best_validate_scores = [result[2] for result in results[:5]]
+    top_models_df = pd.DataFrame({'Model': best_models, 'Train Score': best_train_scores, 'Validate Score': best_validate_scores})
     
-    return best_models[0], top_models_df
+    return best_models[0], top_models_df, train_scores, validate_scores
 
 
-def fit_DT_random_features(X_scaled, y, n_random_features=0):
+
+def fit_DT_random_features(X_scaled, y, x_validate_scaled, y_validate, n_random_features=0):
     """
     Fits a decision tree model to the input pre-scaled data `X_scaled` and `y`,
     with an additional `n_random_features` randomly selected features from `X_scaled`.
-    Returns the best model that achieves a score of 70% or higher on the `y` variable,
-    along with the results of the top five best models.
+    Returns the best model that achieves a score of 44% or higher on the `y` variable,
+    along with the results of the top five best models and their train and validation scores.
     """
     results = []
     best_models = []
+    train_scores = []
+    validate_scores = []
+    
     for depth in range(1, 21):
         selected_cols = np.random.choice(X_scaled.columns, size=n_random_features, replace=False)
         X_with_random = X_scaled.copy()
         for col in selected_cols:
             X_with_random[col] = np.random.permutation(X_with_random[col].values)
-        model = DecisionTreeClassifier(max_depth=depth)
+        model = DecisionTreeClassifier(random_state=123,max_depth=depth)
         model.fit(X_with_random, y)
-        score = model.score(X_with_random, y)
-        if 0.68 < score < 0.80:
-            results.append((model, score))
+        train_score = model.score(X_with_random, y)
+        validate_score = model.score(x_validate_scaled, y_validate)
+        if 0.44 < train_score < 0.80:
+            results.append((model, train_score, validate_score))
     
     results.sort(key=lambda x: x[1], reverse=True)
-    best_models = [result[0] for result in results[:5]]
-    best_scores = [result[1] for result in results[:5]]
-    top_models_df = pd.DataFrame({'Model': best_models, 'Score': best_scores})
+    best_models = results[:5]
+    top_models_df = pd.DataFrame(best_models, columns=['Model', 'Train Score', 'Validate Score'])
     
-    return best_models[0], top_models_df
+    return best_models[0][0], top_models_df
+
+
 
 
 def run_decision_tree(X_train, X_test, y_train, y_test, max_depth):
     # Create a Decision Tree classifier
-    dt = DecisionTreeClassifier(max_depth=max_depth)
+    dt = DecisionTreeClassifier(random_state=123,max_depth=max_depth)
     
     # Train the classifier on the training data
     dt.fit(X_train, y_train)
@@ -131,6 +141,12 @@ def run_decision_tree(X_train, X_test, y_train, y_test, max_depth):
     accuracy = accuracy_score(y_test, y_pred)
     return accuracy
 
+
+def add_cluster_col(scaled_df, cluster_cols):
+    cluster_col = pd.DataFrame(cluster_cols.iloc[:, -1])
+    cluster_col = pd.get_dummies(cluster_col['cluster'],prefix='cluster', drop_first=True)
+    new_df = pd.concat([scaled_df, cluster_col], axis=1)
+    return new_df
 
 def run_knn(X_train, X_test, y_train, y_test, n_neighbors):
     # Create a K-Nearest Neighbors classifier
@@ -170,14 +186,6 @@ def high_citric_col(train, validate, test):
     test['high_citric'] = test['high_citric'].astype(int)
     return train, validate, test
 
-def add_cluster_dummy(scaled_data, cluster_data):
-    # Create dummy variables for the "cluster" column
-    cluster_dummy = pd.get_dummies(cluster_data['cluster'], prefix='cluster', drop_first=True)
-    
-    # Add the cluster dummy variables to the scaled data
-    scaled_data_with_cluster = pd.concat([scaled_data, cluster_dummy], axis=1)
-    
-    return scaled_data_with_cluster
 
 def create_pie_chart(df, column_name,title):
     """ This function creates a pie chart for our categorical target variable"""
@@ -188,3 +196,4 @@ def create_pie_chart(df, column_name,title):
     plt.axis('equal')
     plt.title(title)
     plt.show()
+    
