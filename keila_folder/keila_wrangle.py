@@ -25,7 +25,7 @@ def read_wine():
 
     # combine red & white wine dataset
     df = pd.concat([red, white])
-
+    df['quality_type'] = df['quality'].replace({3: 'low', 4: 'low', 5: 'low', 6: 'high', 7: 'high', 8: 'high', 9: 'high'})
     return df
 
 def remove_outliers(df, exclude_columns=[], sd=3):
@@ -68,16 +68,29 @@ def split_data(df, stratify_name=None):
                                     stratify=train[stratify_name])
     return train, validate, test
 
+def remove_columns(df, cols_to_remove):
+    """
+    Remove specified columns from a dataframe.
+    
+    Args:
+        df (pandas.DataFrame): The input dataframe.
+        cols_to_remove (list or str): A list of column names or a single column name to be removed from the dataframe.
+    
+    Returns:
+        pandas.DataFrame: The dataframe with the specified columns removed.
+    """
+    df = df.drop(columns=cols_to_remove)
+    return df
+
+
 def clean_wine():
     # get datasets 
     df = read_wine()
     
     # remove outliers -- removed outliers outside of 4 standard deviation
-<<<<<<< HEAD
-    df = remove_outliers(df, 'wine_type')
-=======
-    df = remove_outliers(df, ['wine_type'])
->>>>>>> 65ce71bf49e990ca0637155bbb9751255f89ea61
+
+
+    df = remove_outliers(df, ['wine_type', 'quality_type'])
 
     # fix names for columns
     new_col_name = []
@@ -86,7 +99,7 @@ def clean_wine():
         new_col_name.append(col.lower().replace(' ', '_'))
 
     df.columns = new_col_name
-
+    df.drop(['fixed_acidity', 'citric_acid', 'density', 'sulphates'], axis=1, inplace=True)
     # split data 
     train, validate, test = split_data(df, "quality")
     
@@ -204,7 +217,8 @@ def mm_scale(x_train, x_validate, x_test):
             (x_train_scaled, x_validate_scaled, x_test_scaled).
     """
     # remove string column wine_type
-    keep_col = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'ph', 'sulphates', 'alcohol', 'red_wine']
+    keep_col = ['volatile_acidity', 'residual_sugar', 'chlorides',
+       'total_sulfur_dioxide', 'ph', 'alcohol', 'free_sulfur_dioxide', 'red_wine']
     x_train, x_validate, x_test = x_train[keep_col], x_validate[keep_col], x_test[keep_col]
     
     
